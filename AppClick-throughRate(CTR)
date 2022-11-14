@@ -1,0 +1,13 @@
+-- Assume you have an events table on app analytics. Write a query to get the app’s click-through rate (CTR %) in 2022.
+-- Output the results in percentages rounded to 2 decimal places.
+
+select app_id, ROUND(100.0 * sum(CASE
+                      WHEN event_type = 'click' THEN 1
+                      ELSE 0
+                      END) / sum(CASE
+                                  WHEN event_type = 'impression' THEN 1
+                                  ELSE 0
+                                  END),2) as ctr
+from events
+where timestamp BETWEEN '01/01/2022' AND '12/31/2022'
+GROUP BY app_id;
